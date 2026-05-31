@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="1dp">
+
+    <ImageView
+        android:id="@+id/ivPostImage"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/my_background_1"
+
+        android:contentDescription="@string/content_desc_post_image" />
+
+    <ImageView
+        android:id="@+id/ivPostIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:alpha="0.7"
+        app:layout_constraintTop_toTopOf="@id/ivPostImage"
+        app:layout_constraintBottom_toBottomOf="@id/ivPostImage"
+        app:layout_constraintStart_toStartOf="@id/ivPostImage"
+        app:layout_constraintEnd_toEndOf="@id/ivPostImage"
+        android:contentDescription="@null" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,136 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.Lnkp" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Primary Palette -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorOnPrimary">@color/on_primary</item>
+        <item name="colorPrimaryContainer">@color/primary_variant</item>
+
+        <!-- Secondary Palette -->
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorOnSecondary">@color/on_secondary</item>
+
+        <!-- Status bar and Navigation bar transparency -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+
+        <!-- Full-screen / Edge-to-edge support -->
+        <item name="android:windowLayoutInDisplayCutoutMode" tools:targetApi="o_mr1">shortEdges</item>
+
+        <!-- App-wide Starry Background -->
+        <item name="android:windowBackground">@drawable/my_background_1</item>
+
+        <!-- Message Bubble Styling (Implicitly used by custom components) -->
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/white_85</item>
+
+        <!-- Global Input Styling -->
+        <item name="textInputStyle">@style/Widget.Lnkp.TextInputLayout.Glass</item>
+        <item name="editTextStyle">@style/Widget.Lnkp.EditText.White</item>
+
+        <!-- Menu Appearance -->
+        <item name="android:itemBackground">#EE1A1A1A</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="actionMenuTextColor">@color/white</item>
+        <item name="android:actionMenuTextColor">@color/white</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="android:colorControlNormal">@color/white</item>
+        <item name="popupMenuStyle">@style/Widget.Lnkp.PopupMenu</item>
+        <item name="android:panelBackground">#EE1A1A1A</item>
+        <item name="android:panelColorForeground">@color/white</item>
+
+        <!-- Dialog Appearance -->
+        <item name="alertDialogTheme">@style/Theme.Lnkp.AlertDialog</item>
+        <item name="android:alertDialogTheme">@style/Theme.Lnkp.AlertDialog</item>
+
+        <!-- Activity Transitions -->
+        <item name="android:windowAnimationStyle">@style/Animation.Lnkp.Activity</item>
+    </style>
+
+    <style name="Animation.Lnkp.Activity" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_out_left</item>
+        <item name="android:activityCloseEnterAnimation">@anim/slide_in_left</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_out_right</item>
+    </style>
+
+    <style name="Widget.Lnkp.PopupMenu" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:itemBackground">#EE1A1A1A</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Widget.Lnkp.TextInputLayout.Glass" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxBackgroundColor">@color/glass_white</item>
+        <item name="boxStrokeColor">@color/white</item>
+        <item name="boxStrokeWidth">1dp</item>
+        <item name="boxStrokeWidthFocused">2dp</item>
+        <item name="hintTextColor">@color/secondary</item>
+        <item name="android:textColorHint">@color/white_70</item>
+        <item name="boxCornerRadiusTopStart">12dp</item>
+        <item name="boxCornerRadiusTopEnd">12dp</item>
+        <item name="boxCornerRadiusBottomStart">12dp</item>
+        <item name="boxCornerRadiusBottomEnd">12dp</item>
+        <item name="hintEnabled">true</item>
+    </style>
+
+    <style name="Widget.Lnkp.EditText.White" parent="Widget.Material3.TextInputEditText.OutlinedBox">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorHint">@color/white_70</item>
+    </style>
+
+    <style name="Theme.Lnkp.AlertDialog" parent="Theme.Material3.DayNight.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/bg_glass_card_dark</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorAlertDialogListItem">@color/white</item>
+        <item name="android:itemTextAppearance">@style/Theme.Lnkp.AlertDialog.ItemTextAppearance</item>
+        <item name="colorAccent">@color/primary</item>
+    </style>
+
+    <style name="Theme.Lnkp.AlertDialog.ItemTextAppearance" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="ShapeAppearance.Lnkp.Square" parent="">
+        <item name="cornerSize">8dp</item>
+    </style>
+
+    <style name="ColorRowStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_marginBottom">12dp</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:background">@drawable/bg_glass_card</item>
+    </style>
+
+    <style name="ColorBoxStyle">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+    </style>
+
+    <style name="ColorTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <!-- Custom Style for Sent Messages -->
+    <style name="Widget.Lnkp.MessageBubble.Sent" parent="">
+        <item name="android:background">@drawable/bg_message_sent</item>
+        <item name="android:padding">12dp</item>
+    </style>
+
+    <!-- Custom Style for Received Messages -->
+    <style name="Widget.Lnkp.MessageBubble.Received" parent="">
+        <item name="android:background">@drawable/bg_message_received</item>
+        <item name="android:padding">12dp</item>
+    </style>
+</resources>

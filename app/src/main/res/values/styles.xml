@@ -1,0 +1,7 @@
+<resources>
+    <style name="ShapeAppearance.UserMessage" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+        <item name="cornerSizeTopRight">0dp</item>
+    </style>
+</resources>

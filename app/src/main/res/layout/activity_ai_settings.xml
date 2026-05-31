@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/my_background_9">
+
+    <!-- Deep Ambient Overlay -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_gradient_transparent_black" />
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        app:elevation="0dp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="@android:drawable/ic_menu_revert"
+            app:title="AI Configuration"
+            app:titleTextColor="@color/white" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:text="Customize your neural assistant experience. You can select exactly 4 specialized modules to appear as quick shortcuts in your chat."
+                android:textColor="#CCFFFFFF"
+                android:textSize="14sp"
+                android:lineSpacingExtra="4dp" />
+
+            <!-- CORE FUNCTIONS SECTION -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="AI SPECIALIZATIONS"
+                    android:textColor="@color/primary"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.15" />
+                <ImageButton
+                    android:id="@+id/infoNeuralFunctions"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@android:drawable/ic_dialog_info"
+                    app:tint="@color/primary"
+                    android:contentDescription="Info" />
+            </RelativeLayout>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardBackgroundColor="@color/glass_black"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="4dp"
+                app:strokeColor="@color/primary"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <include layout="@layout/item_ai_function" android:id="@+id/itemMathLogic" />
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#11FFFFFF" android:layout_marginHorizontal="16dp" />
+
+                    <include layout="@layout/item_ai_function" android:id="@+id/itemLegalAdvisor" />
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#11FFFFFF" android:layout_marginHorizontal="16dp" />
+
+                    <include layout="@layout/item_ai_function" android:id="@+id/itemHealthAssistant" />
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#11FFFFFF" android:layout_marginHorizontal="16dp" />
+
+                    <include layout="@layout/item_ai_function" android:id="@+id/itemCodeExpert" />
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#11FFFFFF" android:layout_marginHorizontal="16dp" />
+
+                    <include layout="@layout/item_ai_function" android:id="@+id/itemFinanceAnalyst" />
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#11FFFFFF" android:layout_marginHorizontal="16dp" />
+
+                    <include layout="@layout/item_ai_function" android:id="@+id/itemLanguageExpert" />
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#11FFFFFF" android:layout_marginHorizontal="16dp" />
+
+                    <include layout="@layout/item_ai_function" android:id="@+id/itemScientificResearch" />
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#11FFFFFF" android:layout_marginHorizontal="16dp" />
+
+                    <include layout="@layout/item_ai_function" android:id="@+id/itemCreativeWriting" />
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#11FFFFFF" android:layout_marginHorizontal="16dp" />
+
+                    <include layout="@layout/item_ai_function" android:id="@+id/itemHistoryCulture" />
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#11FFFFFF" android:layout_marginHorizontal="16dp" />
+
+                    <include layout="@layout/item_ai_function" android:id="@+id/itemTravelLogistic" />
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#11FFFFFF" android:layout_marginHorizontal="16dp" />
+
+                    <include layout="@layout/item_ai_function" android:id="@+id/itemCyberSecurity" />
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#11FFFFFF" android:layout_marginHorizontal="16dp" />
+
+                    <include layout="@layout/item_ai_function" android:id="@+id/itemBusinessStrategy" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Data Access Section -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PRIVACY PROTOCOLS"
+                    android:textColor="@color/primary"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.15" />
+                <ImageButton
+                    android:id="@+id/infoDataAccess"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@android:drawable/ic_dialog_info"
+                    app:tint="@color/primary"
+                    android:contentDescription="Info" />
+            </RelativeLayout>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardBackgroundColor="@color/glass_black"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#33FFFFFF"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="12dp">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_toStartOf="@id/llSyncActions"
+                            android:orientation="vertical">
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Account Synchronization"
+                                    android:textColor="@color/white"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold" />
+                                <ImageButton
+                                    android:id="@+id/infoAccountAccess"
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:layout_marginStart="8dp"
+                                    android:background="?attr/selectableItemBackgroundBorderless"
+                                    android:src="@android:drawable/ic_dialog_info"
+                                    app:tint="#99FFFFFF"
+                                    android:contentDescription="Info" />
+                            </LinearLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Allow AI to view contacts and logs"
+                                android:textColor="#99FFFFFF"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/llSyncActions"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+                            <com.google.android.material.switchmaterial.SwitchMaterial
+                                android:id="@+id/swAccountAccess"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:thumbTint="@color/primary"
+                                app:trackTint="@color/glass_white" />
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#11FFFFFF" android:layout_marginHorizontal="16dp" />
+
+                    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="12dp">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_toStartOf="@id/llMediaActions"
+                            android:orientation="vertical">
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Media Intelligence"
+                                    android:textColor="@color/white"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold" />
+                                <ImageButton
+                                    android:id="@+id/infoMediaAnalysis"
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:layout_marginStart="8dp"
+                                    android:background="?attr/selectableItemBackgroundBorderless"
+                                    android:src="@android:drawable/ic_dialog_info"
+                                    app:tint="#99FFFFFF"
+                                    android:contentDescription="Info" />
+                            </LinearLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Real-time attachment analysis"
+                                android:textColor="#99FFFFFF"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/llMediaActions"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+                            <com.google.android.material.switchmaterial.SwitchMaterial
+                                android:id="@+id/swMediaAnalysis"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:thumbTint="@color/primary"
+                                app:trackTint="@color/glass_white" />
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#11FFFFFF" android:layout_marginHorizontal="16dp" />
+
+                    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="12dp">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_toStartOf="@id/llSemanticActions"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Semantic Search"
+                                android:textColor="@color/white"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Natural language query processing"
+                                android:textColor="#99FFFFFF"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/llSemanticActions"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+                            <com.google.android.material.switchmaterial.SwitchMaterial
+                                android:id="@+id/swSemanticSearch"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:thumbTint="@color/primary"
+                                app:trackTint="@color/glass_white" />
+                        </LinearLayout>
+                    </RelativeLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnOpenAIChat"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="12dp"
+                android:text="OPEN NEURAL CHAT"
+                app:cornerRadius="12dp"
+                app:icon="@android:drawable/ic_menu_send" />
+
+            <!-- Danger Zone -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnClearNeuralCache"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="PURGE NEURAL CACHE"
+                android:textColor="#FF5555"
+                android:letterSpacing="0.1"
+                app:cornerRadius="12dp"
+                app:rippleColor="#22FF5555" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="16dp"
+                android:text="LinkUp Neural Engine v1.0.4\nSecure Chat Protocol Active"
+                android:textColor="#44FFFFFF"
+                android:textSize="10sp"
+                android:lineSpacingExtra="2dp" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

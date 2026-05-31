@@ -1,0 +1,39 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme for Dark Mode. -->
+    <style name="Theme.Lnkp" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Primary Palette -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorOnPrimary">@color/on_primary</item>
+        <item name="colorPrimaryContainer">@color/primary_variant</item>
+
+        <!-- Secondary Palette -->
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorOnSecondary">@color/on_secondary</item>
+
+        <!-- Status bar and Navigation bar transparency -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+
+        <!-- Full-screen / Edge-to-edge support -->
+        <item name="android:windowLayoutInDisplayCutoutMode" tools:targetApi="o_mr1">shortEdges</item>
+
+        <!-- App-wide Starry Background -->
+        <item name="android:windowBackground">@drawable/my_background_1</item>
+
+        <!-- Message Bubble Styling -->
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">#B0B0B0</item>
+
+        <!-- Menu Appearance -->
+        <item name="android:itemBackground">#EE1A1A1A</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="actionMenuTextColor">@color/white</item>
+        <item name="android:actionMenuTextColor">@color/white</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="android:colorControlNormal">@color/white</item>
+        <item name="popupMenuStyle">@style/Widget.Lnkp.PopupMenu</item>
+        <item name="android:panelBackground">#EE1A1A1A</item>
+        <item name="android:panelColorForeground">@color/white</item>
+    </style>
+</resources>
