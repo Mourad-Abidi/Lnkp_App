@@ -6,13 +6,16 @@ import android.util.Log;
 import android.webkit.MimeTypeMap;
 
 import com.linkup.app.core.SharedDataManager;
+import com.linkup.app.core.AppExecutors;
 import com.linkup.app.models.ChatModel;
 import com.linkup.app.models.Message;
+import com.linkup.app.models.MessageModel;
 import com.linkup.app.models.Post;
 import com.linkup.app.models.User;
 import com.linkup.app.network.ApiService;
 import com.linkup.app.network.SupabaseClient;
 import com.linkup.app.network.SupabaseConfig;
+import com.linkup.app.security.SecurityUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -71,9 +74,27 @@ public class FirebaseDatabaseManager {
         return appContext.getSharedPreferences("AppPrefs", Context.MODE_PRIVATE).getString("user_id", "unknown");
     }
 
+    private boolean isValidUuid(String uuid) {
+        if (uuid == null || uuid.isEmpty() || "unknown".equals(uuid) || uuid.contains("<")) return false;
+        try {
+            UUID.fromString(uuid);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public void syncConversations() {
+        syncConversations(null);
+    }
+
+    public void syncConversations(Runnable onComplete) {
         String currentId = getCurrentUserId();
-        if (currentId.equals("unknown")) return;
+        if (!isValidUuid(currentId)) {
+            Log.w(TAG, "Sync skipped: Invalid current user ID: " + currentId);
+            if (onComplete != null) onComplete.run();
+            return;
+        }
 
         ApiService api = SupabaseClient.getClient().create(ApiService.class);
         String orFilter = "(sender_id.eq." + currentId + ",receiver_id.eq." + currentId + ")";
@@ -96,11 +117,68 @@ public class FirebaseDatabaseManager {
                 } else {
                     Log.e(TAG, "Sync Conversations Failed: " + response.code() + " " + response.message());
                 }
+                if (onComplete != null) onComplete.run();
             }
 
             @Override
             public void onFailure(Call<List<Message>> call, Throwable t) {
                 Log.e(TAG, "Sync failed (Network/Timeout)", t);
+                if (onComplete != null) onComplete.run();
+            }
+        });
+    }
+
+    public void fetchAndStoreAllMessages(Runnable onComplete) {
+        String currentId = getCurrentUserId();
+        if (!isValidUuid(currentId)) {
+            if (onComplete != null) onComplete.run();
+            return;
+        }
+
+        ApiService api = SupabaseClient.getClient().create(ApiService.class);
+        String orFilter = "(sender_id.eq." + currentId + ",receiver_id.eq." + currentId + ")";
+
+        api.getMessagesByFilter(orFilter, "*", "timestamp.asc").enqueue(new Callback<List<Message>>() {
+            @Override
+            public void onResponse(Call<List<Message>> call, Response<List<Message>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    AppExecutors.getInstance().diskIO().execute(() -> {
+                        MessageDao dao = AppDatabase.getInstance(appContext).messageDao();
+                        for (Message msg : response.body()) {
+                            if (!dao.exists(msg.getMessageId())) {
+                                String timeStr = formatMessageTime(msg.getTimestamp());
+                                MessageModel.MessageType type = MessageModel.MessageType.TEXT;
+                                try {
+                                    if (msg.getMessageType() != null) type = MessageModel.MessageType.valueOf(msg.getMessageType());
+                                } catch (Exception ignored) {}
+
+                                String partnerId = msg.getSenderId().equals(currentId) ? msg.getReceiverId() : msg.getSenderId();
+                                MessageModel model = new MessageModel(
+                                        SecurityUtils.decrypt(msg.getMessageText()),
+                                        timeStr,
+                                        msg.getSenderId().equals(currentId),
+                                        type,
+                                        msg.getFileSize(),
+                                        "Partner" // Placeholder, will be updated by syncConversations
+                                );
+                                model.setCloudId(msg.getMessageId());
+                                model.setChatPartnerId(partnerId);
+                                model.setTimestamp(msg.getTimestamp());
+                                model.setMediaUrl(SecurityUtils.decrypt(msg.getMediaUrl()));
+                                model.setSeen("READ".equals(msg.getReadStatus()));
+                                dao.insert(model);
+                            }
+                        }
+                        if (onComplete != null) AppExecutors.getInstance().mainThread().execute(onComplete);
+                    });
+                } else {
+                    if (onComplete != null) onComplete.run();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Message>> call, Throwable t) {
+                if (onComplete != null) onComplete.run();
             }
         });
     }
@@ -109,15 +187,23 @@ public class FirebaseDatabaseManager {
         fetchUserById(partnerId, users -> {
             if (users != null && !users.isEmpty()) {
                 User partner = users.get(0);
-                String name = partner.getFullName() != null && !partner.getFullName().isEmpty() 
+                String tempName = partner.getFullName() != null && !partner.getFullName().isEmpty() 
                              ? partner.getFullName() : partner.getUsername();
-                if (name == null || name.isEmpty()) name = "Unknown";
+                if (tempName == null || tempName.isEmpty()) tempName = "Unknown";
+                final String finalName = tempName;
 
-                ChatModel chat = new ChatModel(name, msg.getMessageText(), formatMessageTime(msg.getTimestamp()), 0, false);
-                chat.setUserId(partnerId);
-                chat.setProfilePhoto(partner.getProfilePhoto());
-                chat.setLastMessageTimestamp(msg.getTimestamp());
-                SharedDataManager.getInstance().addGroup(chat);
+                AppExecutors.getInstance().diskIO().execute(() -> {
+                    int unreadCount = AppDatabase.getInstance(appContext).messageDao().getUnreadCount(partnerId);
+                    
+                    AppExecutors.getInstance().mainThread().execute(() -> {
+                        ChatModel chat = new ChatModel(finalName, SecurityUtils.decrypt(msg.getMessageText()), formatMessageTime(msg.getTimestamp()), unreadCount, unreadCount == 0);
+                        chat.setUserId(partnerId);
+                        chat.setProfilePhoto(partner.getProfilePhoto());
+                        chat.setLastMessageTimestamp(msg.getTimestamp());
+                        chat.setUnreadCount(unreadCount);
+                        SharedDataManager.getInstance().addGroup(chat, false);
+                    });
+                });
             }
         });
     }
@@ -138,7 +224,8 @@ public class FirebaseDatabaseManager {
 
     public void fetchMessagesSince(String partnerId, long sinceTimestamp, OnMessagesFetchedListener listener) {
         String currentId = getCurrentUserId();
-        if (currentId.equals("unknown") || partnerId == null) {
+        if (!isValidUuid(currentId) || !isValidUuid(partnerId)) {
+            Log.w(TAG, "Fetch skipped: Invalid IDs - Me: " + currentId + ", Partner: " + partnerId);
             listener.onMessagesFetched(new ArrayList<>());
             return;
         }
@@ -193,7 +280,8 @@ public class FirebaseDatabaseManager {
         ApiService api = SupabaseClient.getClient().create(ApiService.class);
 
         Map<String, Object> payload = new HashMap<>();
-        payload.put("id", message.getMessageId() != null ? message.getMessageId() : UUID.randomUUID().toString());
+        String msgId = message.getMessageId() != null ? message.getMessageId() : UUID.randomUUID().toString();
+        payload.put("id", msgId);
         payload.put("sender_id", message.getSenderId());
         payload.put("receiver_id", message.getReceiverId());
         payload.put("message_text", message.getMessageText());
@@ -213,6 +301,7 @@ public class FirebaseDatabaseManager {
                     public void onResponse(Call<List<Message>> call, Response<List<Message>> response) {
                         if (response.isSuccessful()) {
                             Log.d(TAG, "SUCCESS: Message saved.");
+                            updateLocalStatus(msgId, "SENT");
                         } else {
                             try {
                                 String errorBody = response.errorBody() != null ? response.errorBody().string() : "No error body";
@@ -228,27 +317,44 @@ public class FirebaseDatabaseManager {
                 });
     }
 
+    private void updateLocalStatus(String msgId, String status) {
+        AppExecutors.getInstance().diskIO().execute(() -> {
+            AppDatabase.getInstance(appContext).messageDao().updateMessageStatusString(msgId, status);
+        });
+    }
+
     public void markMessageAsRead(String messageId) {
-        if (messageId == null) return;
+        if (!isValidUuid(messageId)) return;
+        updateMessageStatus(messageId, "READ", "neq.READ");
+    }
+
+    public void markMessageAsDelivered(String messageId) {
+        if (!isValidUuid(messageId)) return;
+        updateMessageStatus(messageId, "DELIVERED", "eq.SENT");
+    }
+
+    private void updateMessageStatus(String messageId, String status, String filter) {
         ApiService api = SupabaseClient.getClient().create(ApiService.class);
         Map<String, Object> updates = new HashMap<>();
-        updates.put("read_status", "READ");
+        updates.put("read_status", status);
 
-        api.updateMessageStatus("eq." + messageId, updates).enqueue(new Callback<Void>() {
+        api.updateMessageStatus("eq." + messageId, filter, updates).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()) Log.d(TAG, "Message marked as read: " + messageId);
+                if (response.isSuccessful()) {
+                    Log.d(TAG, "Message " + messageId + " status updated to " + status + " (Filter: " + filter + ")");
+                }
             }
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Log.e(TAG, "Failed to mark message as read", t);
+                Log.e(TAG, "Failed to update message status", t);
             }
         });
     }
 
     public void markAllMessagesAsRead(String partnerId) {
         String currentId = getCurrentUserId();
-        if (currentId.equals("unknown") || partnerId == null) return;
+        if (!isValidUuid(currentId) || !isValidUuid(partnerId)) return;
 
         ApiService api = SupabaseClient.getClient().create(ApiService.class);
         Map<String, Object> updates = new HashMap<>();
@@ -262,6 +368,53 @@ public class FirebaseDatabaseManager {
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 Log.e(TAG, "Failed to mark all messages as read", t);
+            }
+        });
+    }
+
+    public void deleteConversation(String partnerId, Runnable onComplete) {
+        String currentId = getCurrentUserId();
+        if (!isValidUuid(currentId) || !isValidUuid(partnerId)) return;
+
+        ApiService api = SupabaseClient.getClient().create(ApiService.class);
+        String orFilter = "(and(sender_id.eq." + currentId + ",receiver_id.eq." + partnerId + ")," +
+                         "and(sender_id.eq." + partnerId + ",receiver_id.eq." + currentId + "))";
+
+        api.deleteMessages(orFilter).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Log.d(TAG, "Conversation deleted from Supabase: " + partnerId);
+                    if (onComplete != null) onComplete.run();
+                } else {
+                    Log.e(TAG, "Failed to delete conversation from Supabase: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.e(TAG, "Network error while deleting conversation", t);
+            }
+        });
+    }
+
+    public void syncPendingMessages() {
+        String currentId = getCurrentUserId();
+        if (!isValidUuid(currentId)) return;
+
+        AppExecutors.getInstance().diskIO().execute(() -> {
+            List<MessageModel> pending = AppDatabase.getInstance(appContext).messageDao().getPendingMessages();
+            for (MessageModel model : pending) {
+                Message cloudMsg = new Message();
+                cloudMsg.setMessageId(model.getCloudId());
+                cloudMsg.setSenderId(currentId);
+                cloudMsg.setReceiverId(model.getChatPartnerId());
+                cloudMsg.setMessageText(SecurityUtils.encrypt(model.getMessage()));
+                cloudMsg.setTimestamp(model.getTimestamp());
+                cloudMsg.setMessageType(model.getType().name());
+                cloudMsg.setReadStatus("SENT");
+                
+                sendMessage(cloudMsg);
             }
         });
     }

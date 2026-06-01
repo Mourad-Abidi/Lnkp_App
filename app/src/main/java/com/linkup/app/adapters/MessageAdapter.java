@@ -258,19 +258,30 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     private void bindStatus(ImageView ivStatus, MessageModel message) {
-        if (ivStatus != null) {
-            if (message.isSent()) {
-                ivStatus.setVisibility(View.VISIBLE);
-                if (message.isSeen()) {
-                    ivStatus.setImageResource(R.drawable.ic_double_tick);
-                    ivStatus.setColorFilter(Color.parseColor("#4FC3F7"));
-                } else {
-                    ivStatus.setImageResource(R.drawable.ic_single_tick);
-                    ivStatus.setColorFilter(Color.GRAY);
-                }
-            } else {
-                ivStatus.setVisibility(View.GONE);
-            }
+        if (ivStatus == null) return;
+        if (!message.isSent()) {
+            ivStatus.setVisibility(View.GONE);
+            return;
+        }
+
+        ivStatus.setVisibility(View.VISIBLE);
+        String status = message.getStatus();
+        if (status == null) status = message.isSeen() ? "READ" : "SENT";
+
+        switch (status) {
+            case "READ":
+                ivStatus.setImageResource(R.drawable.ic_double_tick);
+                ivStatus.setColorFilter(Color.parseColor("#4FC3F7")); // WhatsApp Blue
+                break;
+            case "DELIVERED":
+                ivStatus.setImageResource(R.drawable.ic_double_tick);
+                ivStatus.setColorFilter(Color.GRAY);
+                break;
+            case "SENT":
+            default:
+                ivStatus.setImageResource(R.drawable.ic_single_tick);
+                ivStatus.setColorFilter(Color.GRAY);
+                break;
         }
     }
 

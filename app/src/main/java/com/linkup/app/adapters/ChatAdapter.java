@@ -29,6 +29,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
     private boolean isCallList = false;
     private OnSelectionChangedListener selectionListener;
     private OnChatClickListener clickListener;
+    private OnChatClickListener longClickListener;
     private SharedPreferences settings;
 
     public interface OnSelectionChangedListener {
@@ -51,6 +52,10 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
     public ChatAdapter(Context context, List<ChatModel> chatList, OnChatClickListener clickListener) {
         this.chatList = chatList;
         this.clickListener = clickListener;
+    }
+
+    public void setLongClickListener(OnChatClickListener listener) {
+        this.longClickListener = listener;
     }
 
     public void setSelectionMode(boolean selectionMode, OnSelectionChangedListener listener) {
@@ -155,6 +160,14 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         } else {
             holder.itemView.setBackgroundResource(0);
         }
+
+        holder.itemView.setOnLongClickListener(v -> {
+            if (longClickListener != null) {
+                longClickListener.onChatClick(chat);
+                return true;
+            }
+            return false;
+        });
 
         holder.itemView.setOnClickListener(v -> {
             if (isSelectionMode) {

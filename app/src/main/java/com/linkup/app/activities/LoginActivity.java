@@ -158,6 +158,7 @@ public class LoginActivity extends BaseActivity {
                         editor.putString("user_full_name", auth.getUser().getUsername());
                         editor.putString("user_email", auth.getUser().getEmail());
                     }
+                    editor.putBoolean("needs_initial_sync", true);
                     editor.apply();
                     proceedToMain();
                 } else {

@@ -11,6 +11,7 @@ import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.PATCH;
@@ -68,6 +69,7 @@ public interface ApiService {
     @PATCH("rest/v1/messages")
     Call<Void> updateMessageStatus(
             @Query("id") String messageId,
+            @Query("read_status") String statusFilter,
             @Body Map<String, Object> updates
     );
 
@@ -77,6 +79,17 @@ public interface ApiService {
             @Query("receiver_id") String receiverId,
             @Query("read_status") String filterReadStatus,
             @Body Map<String, Object> updates
+    );
+
+    @DELETE("rest/v1/messages")
+    Call<Void> deleteMessages(
+            @Query("or") String orFilter
+    );
+
+    @PATCH("rest/v1/profiles")
+    Call<Void> updatePresence(
+            @Query("id") String userId,
+            @Body Map<String, Object> presenceData
     );
 
     // --- SOCIAL FEED ---

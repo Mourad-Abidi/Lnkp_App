@@ -18,13 +18,18 @@
         android:focusable="false" />
 
     <!-- Main Content -->
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/mainScroll"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipChildren="false"
-        android:clipToPadding="false"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/mainScroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:clipToPadding="false">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -259,6 +264,7 @@
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <!-- Stealth Overlay - Covers only the scrolling content area -->
     <View

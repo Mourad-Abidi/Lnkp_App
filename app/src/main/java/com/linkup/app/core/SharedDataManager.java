@@ -35,7 +35,7 @@ public class SharedDataManager {
     
     private final List<OnPostAddedListener> postListeners = new CopyOnWriteArrayList<>();
     private OnGroupChangedListener groupListener;
-    
+
     private String activeChatUserId;
 
     public interface OnPostAddedListener {
@@ -162,15 +162,13 @@ public class SharedDataManager {
                 name,
                 SecurityUtils.decrypt(msg.getMessageText()),
                 FirebaseDatabaseManager.getInstance().formatMessageTime(msg.getTimestamp()),
-                (myId != null && myId.equals(receiverId)) ? 1 : 0, // Only mark as new if I am the receiver
+                0, // Initial unread count 0, will be incremented in addGroup
                 false
             );
             chat.setUserId(partnerId);
             chat.setLastMessageTimestamp(msg.getTimestamp());
             chat.setProfilePhoto(photo);
             
-            addGroup(chat);
-
             // Persist to local database for automatic downloading/sync
             AppExecutors.getInstance().diskIO().execute(() -> {
                 String timeStr = FirebaseDatabaseManager.getInstance().formatMessageTime(msg.getTimestamp());
@@ -195,26 +193,52 @@ public class SharedDataManager {
 
                 if (!AppDatabase.getInstance(FirebaseDatabaseManager.getContext()).messageDao().exists(msg.getMessageId())) {
                     AppDatabase.getInstance(FirebaseDatabaseManager.getContext()).messageDao().insert(model);
+                } else {
+                    // Update status if it changed
+                    AppDatabase.getInstance(FirebaseDatabaseManager.getContext()).messageDao().updateMessageStatus(msg.getMessageId(), "READ".equals(msg.getReadStatus()));
                 }
+
+                // Recalculate absolute unread count from Room
+                int unreadCount = AppDatabase.getInstance(FirebaseDatabaseManager.getContext()).messageDao().getUnreadCount(partnerId);
+                
+                AppExecutors.getInstance().mainThread().execute(() -> {
+                    chat.setUnreadCount(unreadCount);
+                    // If this is the currently active chat, unread count should be 0 anyway
+                    if (partnerId.equals(activeChatUserId)) {
+                        chat.setUnreadCount(0);
+                        chat.setRead(true);
+                    }
+                    addGroup(chat, false); // Pass false to use the absolute count we just calculated
+                });
             });
 
             // ONLY show notification if I am the receiver and it's a new message (not just a status update)
             if (myId != null && myId.equals(receiverId) && msg.getMessageText() != null) {
+                String decryptedMsg = SecurityUtils.decrypt(msg.getMessageText());
                 NotificationHelper.showMessageNotification(
                     FirebaseDatabaseManager.getContext(),
                     senderId,
                     name,
-                    SecurityUtils.decrypt(msg.getMessageText())
+                    decryptedMsg
                 );
+                
+                // Mark as DELIVERED in Supabase if it was only SENT
+                if ("SENT".equals(msg.getReadStatus())) {
+                    FirebaseDatabaseManager.getInstance().markMessageAsDelivered(msg.getMessageId());
+                }
             }
         });
+    }
+
+    public void addGroup(ChatModel group) {
+        addGroup(group, false);
     }
 
     /**
      * Adds or updates a conversation.
      * Ensures IDs and profile photos are preserved during updates.
      */
-    public void addGroup(ChatModel group) {
+    public void addGroup(ChatModel group, boolean incrementUnread) {
         if (group == null || group.getUserName() == null) return;
         
         String key = group.getUserId() != null ? group.getUserId() : group.getUserName().toLowerCase();
@@ -231,6 +255,17 @@ public class SharedDataManager {
             if (group.getUserId() == null) group.setUserId(existing.getUserId());
             if (group.getProfilePhoto() == null) group.setProfilePhoto(existing.getProfilePhoto());
             if (group.getLastMessageTimestamp() == 0) group.setLastMessageTimestamp(existing.getLastMessageTimestamp());
+            
+            // Accumulate unread count
+            if (incrementUnread) {
+                group.setUnreadCount(existing.getUnreadCount() + 1);
+            } else if (group.getUnreadCount() == 0 && !group.isRead()) {
+                // Preserve unread count if we are not explicitly incrementing and new model has 0
+                // UNLESS isRead() is true (manual reset)
+                group.setUnreadCount(existing.getUnreadCount());
+            }
+        } else if (incrementUnread) {
+            group.setUnreadCount(1);
         }
         
         groups.add(0, group);
@@ -240,6 +275,16 @@ public class SharedDataManager {
         sortGroups();
 
         if (groupListener != null) groupListener.onGroupChanged(group);
+    }
+
+    public void removeGroup(String userId) {
+        if (userId == null) return;
+        ChatModel existing = groupMap.remove(userId);
+        if (existing != null) {
+            groups.remove(existing);
+            groupNamesLower.remove(existing.getUserName().toLowerCase());
+            if (groupListener != null) groupListener.onGroupChanged(null);
+        }
     }
 
     private void sortGroups() {

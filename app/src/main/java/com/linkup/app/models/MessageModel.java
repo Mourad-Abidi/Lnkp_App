@@ -30,6 +30,7 @@ public class MessageModel {
     private String replyToContent;
 
     private boolean isSeen;
+    private String status; // SENT, DELIVERED, READ
     private String originalSenderName;
     private String reaction;
     
@@ -100,6 +101,9 @@ public class MessageModel {
 
     public boolean isSeen() { return isSeen; }
     public void setSeen(boolean seen) { isSeen = seen; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 
     public String getOriginalSenderName() { return originalSenderName; }
     public void setOriginalSenderName(String originalSenderName) { this.originalSenderName = originalSenderName; }

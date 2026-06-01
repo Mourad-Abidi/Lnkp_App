@@ -47,6 +47,7 @@ import com.linkup.app.models.Message;
 import com.linkup.app.models.MessageModel;
 import com.linkup.app.models.User;
 import com.linkup.app.network.SupabaseRealtimeManager;
+import com.linkup.app.repository.MessageRepository;
 import com.linkup.app.security.SecurityUtils;
 import com.linkup.app.activities.FullScreenImageActivity;
 import com.bumptech.glide.Glide;
@@ -360,6 +361,7 @@ public class ChatActivity extends BaseActivity {
         cloudMsg.setTimestamp(timestamp);
         cloudMsg.setMessageType(type.name());
         cloudMsg.setFileSize(sizeOrDuration);
+        cloudMsg.setReadStatus("SENT");
         FirebaseDatabaseManager.getInstance().sendMessage(cloudMsg);
     }
 
@@ -433,20 +435,19 @@ public class ChatActivity extends BaseActivity {
 
         long timestamp = System.currentTimeMillis();
         String time = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date(timestamp));
-        String msgId = UUID.randomUUID().toString();
+        String localId = UUID.randomUUID().toString(); // Use as temporary cloudId
         String encryptedText = SecurityUtils.encrypt(text);
 
         MessageModel local = new MessageModel(text, time, true, MessageModel.MessageType.TEXT, null, chatPartnerName);
-        local.setCloudId(msgId);
+        local.setCloudId(localId);
         local.setChatPartnerId(chatPartnerId);
         local.setTimestamp(timestamp);
+        local.setStatus("PENDING");
         
-        // Only display locally; don't save to DB yet if we want to rely on cloud sync,
-        // OR save now and ensure cloud sync ignores it.
         saveAndDisplayMessage(local);
 
         Message cloudMsg = new Message();
-        cloudMsg.setMessageId(msgId);
+        cloudMsg.setMessageId(localId);
         cloudMsg.setSenderId(FirebaseDatabaseManager.getInstance().getCurrentUserId());
         cloudMsg.setReceiverId(chatPartnerId);
         cloudMsg.setMessageText(encryptedText);
@@ -454,7 +455,7 @@ public class ChatActivity extends BaseActivity {
         cloudMsg.setMessageType("TEXT");
         cloudMsg.setReadStatus("SENT");
         
-        Log.d("ChatActivity", "Sending to Cloud: ID=" + msgId + " To=" + chatPartnerId);
+        Log.d("ChatActivity", "Sending to Cloud: ID=" + localId + " To=" + chatPartnerId);
         FirebaseDatabaseManager.getInstance().sendMessage(cloudMsg);
     }
 
@@ -490,22 +491,44 @@ public class ChatActivity extends BaseActivity {
     private void loadMessages() {
         if (TextUtils.isEmpty(chatPartnerId)) return;
         AppExecutors.getInstance().diskIO().execute(() -> {
-            List<MessageModel> list = AppDatabase.getInstance(this).messageDao().getMessagesForChat(chatPartnerId);
+            // Instant load from Cache
+            List<MessageModel> list = MessageRepository.getInstance(this).getLocalMessages(chatPartnerId);
             AppExecutors.getInstance().mainThread().execute(() -> {
-                fullMessageList.clear(); fullMessageList.addAll(list);
-                adapter.updateList(new ArrayList<>(list));
-                if (!messageList.isEmpty()) {
-                    rvMessages.scrollToPosition(messageList.size() - 1);
-                    for (MessageModel m : list) if (m.getTimestamp() > lastFetchedTimestamp) lastFetchedTimestamp = m.getTimestamp();
-                }
+                updateUIList(list);
+                // Trigger Background Sync
                 fetchMissedMessages();
             });
         });
     }
 
+    private void updateUIList(List<MessageModel> list) {
+        fullMessageList.clear();
+        fullMessageList.addAll(list);
+        messageList.clear();
+        messageList.addAll(list);
+        adapter.updateList(new ArrayList<>(list));
+
+        if (!messageList.isEmpty()) {
+            rvMessages.scrollToPosition(messageList.size() - 1);
+            for (MessageModel m : list) {
+                if (m.getTimestamp() > lastFetchedTimestamp) {
+                    lastFetchedTimestamp = m.getTimestamp();
+                }
+            }
+        }
+    }
+
     private void fetchMissedMessages() {
-        FirebaseDatabaseManager.getInstance().fetchMessagesSince(chatPartnerId, lastFetchedTimestamp, messages -> {
-            if (messages != null && !messages.isEmpty()) syncWithCloud(messages);
+        if (TextUtils.isEmpty(chatPartnerId)) return;
+        if (swipeRefreshLayout != null) swipeRefreshLayout.setRefreshing(true);
+        
+        MessageRepository.getInstance(this).syncHistory(chatPartnerId, () -> {
+            if (swipeRefreshLayout != null) swipeRefreshLayout.setRefreshing(false);
+            // Refresh from updated Room
+            AppExecutors.getInstance().diskIO().execute(() -> {
+                List<MessageModel> updated = MessageRepository.getInstance(this).getLocalMessages(chatPartnerId);
+                runOnUiThread(() -> updateUIList(updated));
+            });
         });
     }
 
@@ -539,8 +562,14 @@ public class ChatActivity extends BaseActivity {
 
     private void updateMainChatList(MessageModel lastMessage) {
         ChatModel chat = new ChatModel(chatPartnerName, lastMessage.getMessage(), lastMessage.getTime(), 0, false);
-        chat.setUserId(chatPartnerId); chat.setLastMessageTimestamp(lastMessage.getTimestamp());
-        chat.setProfilePhoto(chatPartnerAvatar); SharedDataManager.getInstance().addGroup(chat);
+        chat.setUserId(chatPartnerId); 
+        chat.setLastMessageTimestamp(lastMessage.getTimestamp());
+        chat.setProfilePhoto(chatPartnerAvatar);
+        
+        // If this activity is active, mark it as read immediately
+        chat.markAsRead();
+        
+        SharedDataManager.getInstance().addGroup(chat);
     }
 
     private void setupRealtime() {
@@ -568,64 +597,61 @@ public class ChatActivity extends BaseActivity {
     }
 
     private void handleOutgoingStatusUpdate(Message msg) {
-        if ("READ".equals(msg.getReadStatus())) {
-            runOnUiThread(() -> {
-                for (int i = 0; i < messageList.size(); i++) {
-                    MessageModel m = messageList.get(i);
-                    if (msg.getMessageId() != null && msg.getMessageId().equals(m.getCloudId())) {
-                        if (!m.isSeen()) {
-                            m.setSeen(true);
-                            adapter.notifyItemChanged(i);
-                            AppExecutors.getInstance().diskIO().execute(() -> AppDatabase.getInstance(this).messageDao().updateMessageStatus(m.getCloudId(), true));
-                        }
-                        break;
+        String newStatus = msg.getReadStatus();
+        if (newStatus == null) return;
+
+        runOnUiThread(() -> {
+            for (int i = 0; i < messageList.size(); i++) {
+                MessageModel m = messageList.get(i);
+                if (msg.getMessageId() != null && msg.getMessageId().equals(m.getCloudId())) {
+                    boolean changed = false;
+                    
+                    // Update status string
+                    if (!newStatus.equals(m.getStatus())) {
+                        m.setStatus(newStatus);
+                        changed = true;
                     }
+                    
+                    // Update legacy isSeen for backwards compat
+                    if ("READ".equals(newStatus) && !m.isSeen()) {
+                        m.setSeen(true);
+                        changed = true;
+                    }
+
+                    if (changed) {
+                        adapter.notifyItemChanged(i);
+                        AppExecutors.getInstance().diskIO().execute(() -> {
+                            AppDatabase.getInstance(this).messageDao().update(m); // Full update
+                        });
+                    }
+                    break;
                 }
-            });
-        }
+            }
+        });
     }
 
     private void handleIncomingCloudMessage(Message msg) {
         String msgId = msg.getMessageId();
         if (msgId == null) return;
 
-        // Check if message already exists in the current list to prevent UI duplication
-        for (MessageModel m : fullMessageList) {
-            if (msgId.equals(m.getCloudId())) {
-                Log.d("ChatActivity", "Message " + msgId + " already in list, skipping.");
-                return;
-            }
-        }
+        // 1. Let Repository handle decryption and caching
+        MessageRepository.getInstance(this).handleIncomingMessage(msg, chatPartnerId);
 
-        String timeStr = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date(msg.getTimestamp()));
-        MessageModel.MessageType type = MessageModel.MessageType.TEXT;
-        try { if (msg.getMessageType() != null) type = MessageModel.MessageType.valueOf(msg.getMessageType()); } catch (Exception ignored) {}
-
-        String decryptedText = SecurityUtils.decrypt(msg.getMessageText());
-        MessageModel model = new MessageModel(decryptedText, timeStr, false, type, msg.getFileSize(), chatPartnerName);
-        model.setCloudId(msgId); 
-        model.setChatPartnerId(chatPartnerId);
-        model.setTimestamp(msg.getTimestamp()); 
-        model.setMediaUrl(SecurityUtils.decrypt(msg.getMediaUrl()));
-        model.setSeen("READ".equals(msg.getReadStatus()));
-
-        runOnUiThread(() -> {
-            messageList.add(model); 
-            fullMessageList.add(model);
-            adapter.notifyItemInserted(messageList.size() - 1); 
-            rvMessages.scrollToPosition(messageList.size() - 1);
-            updateMainChatList(model);
-            
-            AppExecutors.getInstance().diskIO().execute(() -> {
-                // Double check DB to prevent races
-                if (!AppDatabase.getInstance(this).messageDao().exists(msgId)) {
-                    AppDatabase.getInstance(this).messageDao().insert(model);
+        // 2. Refresh UI from cache to ensure consistency
+        AppExecutors.getInstance().diskIO().execute(() -> {
+            List<MessageModel> updated = MessageRepository.getInstance(this).getLocalMessages(chatPartnerId);
+            runOnUiThread(() -> {
+                updateUIList(updated);
+                if (!updated.isEmpty()) {
+                    updateMainChatList(updated.get(updated.size() - 1));
                 }
             });
-            
-            // Mark as read immediately if chat is open
-            FirebaseDatabaseManager.getInstance().markMessageAsRead(msgId);
         });
+        
+        // Mark as read immediately if chat is open and not already read
+        if (!"READ".equals(msg.getReadStatus())) {
+            FirebaseDatabaseManager.getInstance().markMessageAsRead(msgId);
+        }
     }
 
     @Override
@@ -637,7 +663,15 @@ public class ChatActivity extends BaseActivity {
         
         // Mark all messages from this partner as read when entering the chat
         if (chatPartnerId != null) {
-            FirebaseDatabaseManager.getInstance().markAllMessagesAsRead(chatPartnerId);
+            MessageRepository.getInstance(this).markChatAsRead(chatPartnerId);
+            
+            // Also reset unread count in SharedDataManager/UI
+            ChatModel chat = SharedDataManager.getInstance().getGroup(chatPartnerName);
+            if (chat != null) {
+                chat.markAsRead();
+                SharedDataManager.getInstance().addGroup(chat); // Update and notify listeners
+            }
+
             fetchMissedMessages(); // Auto-fetch on entry
         }
     }

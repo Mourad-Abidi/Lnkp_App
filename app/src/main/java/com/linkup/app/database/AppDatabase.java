@@ -8,7 +8,7 @@ import com.linkup.app.models.MessageModel;
 import com.linkup.app.models.IntruderAlert;
 import com.linkup.app.models.Call;
 
-@Database(entities = {MessageModel.class, IntruderAlert.class, Call.class}, version = 11) // Incremented to 11
+@Database(entities = {MessageModel.class, IntruderAlert.class, Call.class}, version = 12) // Incremented to 12
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase instance;
 

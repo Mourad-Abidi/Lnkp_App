@@ -23,6 +23,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.linkup.app.R;
 import com.linkup.app.adapters.ChatAdapter;
 import com.linkup.app.adapters.RecentUpdatesAdapter;
@@ -33,6 +34,7 @@ import com.linkup.app.models.ChatModel;
 import com.linkup.app.models.Post;
 import com.linkup.app.network.SupabaseRealtimeManager;
 import com.bumptech.glide.Glide;
+import com.linkup.app.repository.MessageRepository;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -48,6 +50,7 @@ public class MainActivity extends BaseActivity implements LANManager.OnPeerDisco
     
     private ChatAdapter chatAdapter;
     private RecentUpdatesAdapter updatesAdapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
     
     private List<ChatModel> displayChatList = new ArrayList<>();
     private int activeFilter = 0; // 0: All, 1: Groups, 2: Calls
@@ -82,8 +85,21 @@ public class MainActivity extends BaseActivity implements LANManager.OnPeerDisco
         
         requestNotificationPermission();
 
-        // Initial sync of conversations and posts from cloud
-        FirebaseDatabaseManager.getInstance().syncConversations();
+        // Initial sync logic
+        if (appPrefs.getBoolean("needs_initial_sync", false)) {
+            // New Architecture: Use Repository for initial sync
+            FirebaseDatabaseManager.getInstance().fetchAllUsers(users -> {
+                if (users != null) {
+                    for (com.linkup.app.models.User user : users) {
+                        MessageRepository.getInstance(this).syncHistory(user.getUserId(), null);
+                    }
+                    appPrefs.edit().putBoolean("needs_initial_sync", false).apply();
+                    FirebaseDatabaseManager.getInstance().syncConversations();
+                }
+            });
+        } else {
+            FirebaseDatabaseManager.getInstance().syncConversations();
+        }
         FirebaseDatabaseManager.getInstance().listenForPosts();
 
         // STEP 2: Start Real-time Listening
@@ -129,6 +145,7 @@ public class MainActivity extends BaseActivity implements LANManager.OnPeerDisco
     @Override
     protected void onResume() {
         super.onResume();
+        FirebaseDatabaseManager.getInstance().syncPendingMessages();
         String savedAvatar = appPrefs.getString(PREF_USER_AVATAR, usagePrefs.getString(PREF_USER_AVATAR, null));
         if (savedAvatar != null) updateUserAvatar(savedAvatar);
         updateUserCardState();
@@ -161,6 +178,17 @@ public class MainActivity extends BaseActivity implements LANManager.OnPeerDisco
         tvUsageTime = findViewById(R.id.tvUsageTime);
         stealthOverlay = findViewById(R.id.stealthOverlay);
         ivFabProfile = findViewById(R.id.ivFabProfile);
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+
+        if (swipeRefreshLayout != null) {
+            swipeRefreshLayout.setOnRefreshListener(() -> {
+                FirebaseDatabaseManager.getInstance().syncConversations(() -> {
+                    swipeRefreshLayout.setRefreshing(false);
+                });
+                FirebaseDatabaseManager.getInstance().listenForPosts();
+            });
+            swipeRefreshLayout.setColorSchemeResources(R.color.primary);
+        }
 
         if (statsHeader != null) {
             statsHeader.setVisibility(usagePrefs.getBoolean("isStatsVisible", true) ? View.VISIBLE : View.GONE);
@@ -250,6 +278,23 @@ public class MainActivity extends BaseActivity implements LANManager.OnPeerDisco
             intent.putExtra("is_group", chat.isGroup());
             startActivity(intent);
         }));
+
+        chatAdapter.setLongClickListener(chat -> {
+            new AlertDialog.Builder(this)
+                    .setTitle("Delete Conversation")
+                    .setMessage("Are you sure you want to delete this conversation with " + chat.getUserName() + "? This action cannot be undone.")
+                    .setPositiveButton("Delete", (dialog, which) -> {
+                        Toast.makeText(this, "Deleting conversation...", Toast.LENGTH_SHORT).show();
+                        MessageRepository.getInstance(this).deleteConversation(chat.getUserId(), () -> {
+                            SharedDataManager.getInstance().removeGroup(chat.getUserId());
+                            refreshChatsList();
+                            Toast.makeText(this, "Conversation deleted", Toast.LENGTH_SHORT).show();
+                        });
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
+        });
+
         rvChats.setLayoutManager(new LinearLayoutManager(this));
         rvChats.setAdapter(chatAdapter);
 

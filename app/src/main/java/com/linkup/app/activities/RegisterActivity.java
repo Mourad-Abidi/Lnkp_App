@@ -123,6 +123,7 @@ public class RegisterActivity extends BaseActivity {
             .putString("user_email", email)
             .putString("user_id", userId)
             .putString("supabase_token", token)
+            .putBoolean("needs_initial_sync", true)
             .apply();
 
         Toast.makeText(this, "Welcome to Lnkp!", Toast.LENGTH_SHORT).show();
