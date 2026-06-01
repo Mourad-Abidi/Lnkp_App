@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/settingsRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/my_background_9">
+
+    <!-- Ambient Overlay for Readability -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_gradient_transparent_black" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/transparent"
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        app:navigationIconTint="@color/white"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingEnd="16dp"
+            tools:ignore="RtlSymmetry">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/settings"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/settingsScroll"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <LinearLayout
+            android:id="@+id/llSettingsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- SECTION: ACCOUNT -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/account"
+                android:textColor="@color/secondary"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="4dp"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/glass_white"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="0dp"
+                android:layout_marginBottom="16dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/settingChangeAccount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:text="@string/switch_account"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:drawableStartCompat="@android:drawable/ic_menu_myplaces"
+                        android:drawablePadding="16dp"
+                        app:drawableTint="@color/white" />
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/white_20"/>
+
+                    <TextView
+                        android:id="@+id/settingAnalyseAccount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:text="@string/account_analysis"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:background="@drawable/bg_glass_card"
+                        android:backgroundTint="#FF4CAF50"
+                        app:drawableStartCompat="@android:drawable/ic_menu_sort_by_size"
+                        android:drawablePadding="16dp"
+                        app:drawableTint="@color/white" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- SECTION: PREFERENCES -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/preferences"
+                android:textColor="@color/secondary"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="4dp"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/glass_white"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="0dp"
+                android:layout_marginBottom="16dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/settingAppearance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:text="@string/appearance"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:drawableStartCompat="@android:drawable/ic_menu_gallery"
+                        android:drawablePadding="16dp"
+                        app:drawableTint="@color/white" />
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/white_20"/>
+
+                    <TextView
+                        android:id="@+id/settingNotifications"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:text="@string/notifications"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:drawableStartCompat="@android:drawable/ic_popup_reminder"
+                        android:drawablePadding="16dp"
+                        app:drawableTint="@color/white" />
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/white_20"/>
+
+                    <TextView
+                        android:id="@+id/settingChats"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:text="@string/chats"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:drawableStartCompat="@android:drawable/stat_notify_chat"
+                        android:drawablePadding="16dp"
+                        app:drawableTint="@color/white" />
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/white_20"/>
+
+                    <TextView
+                        android:id="@+id/settingCalls"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:text="@string/calls"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:drawableStartCompat="@android:drawable/ic_menu_call"
+                        android:drawablePadding="16dp"
+                        app:drawableTint="@color/white" />
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/white_20"/>
+
+                    <TextView
+                        android:id="@+id/settingMediaStorage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:text="@string/media_storage"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:drawableStartCompat="@android:drawable/ic_menu_save"
+                        android:drawablePadding="16dp"
+                        app:drawableTint="@color/white" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- SECTION: SECURITY -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/privacy_security"
+                android:textColor="@color/secondary"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="4dp"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/glass_white"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="0dp" android:layout_marginBottom="16dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/settingSecurityCenter"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:text="@string/security_center"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:background="@drawable/bg_glass_card"
+                        android:backgroundTint="#88FF0000"
+                        app:drawableStartCompat="@android:drawable/ic_menu_set_as"
+                        android:drawablePadding="16dp"
+                        app:drawableTint="@color/white" />
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/white_20"/>
+
+                    <TextView
+                        android:id="@+id/settingGhostChat"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:text="@string/ghost_chat_daily"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:background="@drawable/bg_glass_card"
+                        android:backgroundTint="#88FF0000"
+                        app:drawableStartCompat="@android:drawable/ic_menu_send"
+                        android:drawablePadding="16dp"
+                        app:drawableTint="@color/white" />
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/white_20"/>
+
+                    <TextView
+                        android:id="@+id/settingPrivacyPolicy"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:text="@string/privacy_policy"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:drawableStartCompat="@android:drawable/ic_menu_agenda"
+                        android:drawablePadding="16dp"
+                        app:drawableTint="@color/white" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- SECTION: SUPPORT -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/support_about"
+                android:textColor="@color/secondary"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="4dp"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/glass_white"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="0dp"
+                android:layout_marginBottom="16dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/settingHelp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:text="@string/help_support"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:drawableStartCompat="@android:drawable/ic_menu_help"
+                        android:drawablePadding="16dp"
+                        app:drawableTint="@color/white" />
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/white_20"/>
+
+                    <TextView
+                        android:id="@+id/settingInviteFriends"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:text="@string/invite_friends"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:drawableStartCompat="@android:drawable/ic_menu_share"
+                        android:drawablePadding="16dp"
+                        app:drawableTint="@color/white" />
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/white_20"/>
+
+                    <TextView
+                        android:id="@+id/settingAbout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:text="@string/about_linkup"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:drawableStartCompat="@android:drawable/ic_menu_info_details"
+                        android:drawablePadding="16dp"
+                        app:drawableTint="@color/white" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- SECTION: ACTIONS -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/glass_white"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="0dp"
+                android:layout_marginBottom="32dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/settingClearData"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:text="@string/clear_data"
+                        android:textColor="@color/error_red"
+                        android:textSize="16sp"
+                        app:drawableStartCompat="@android:drawable/ic_menu_delete"
+                        android:drawablePadding="16dp"
+                        app:drawableTint="@color/error_red" />
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/white_20"/>
+
+                    <TextView
+                        android:id="@+id/settingLogout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:text="@string/logout"
+                        android:textColor="@color/error_red"
+                        android:textSize="16sp"
+                        app:drawableStartCompat="@android:drawable/ic_lock_power_off"
+                        android:drawablePadding="16dp"
+                        app:drawableTint="@color/error_red" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

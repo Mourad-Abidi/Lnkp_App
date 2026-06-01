@@ -1,0 +1,271 @@
+<resources>
+    <string name="app_name" translatable="false">LinkUp</string>
+    <string name="secure_messaging" translatable="false">Secure Messaging</string>
+    <string name="full_name" translatable="false">Full Name</string>
+    <string name="email" translatable="false">Email</string>
+    <string name="password" translatable="false">Password</string>
+    <string name="confirm_password" translatable="false">Confirm Password</string>
+    <string name="login" translatable="false">Login</string>
+    <string name="sign_up" translatable="false">Sign Up</string>
+    <string name="back" translatable="false">Back</string>
+    <string name="forgot_password" translatable="false">Forgot Password?</string>
+    <string name="reset_password" translatable="false">Reset Password</string>
+    <string name="forgot_password_instruction" translatable="false">Enter your email address to receive a password reset link.</string>
+    <string name="send_link" translatable="false">Send Reset Link</string>
+    <string name="user_profile" translatable="false">User Profile</string>
+    <string name="verified_identity" translatable="false">Secure Identity: Verified</string>
+    <string name="new_chat" translatable="false">New Chat</string>
+    <string name="intruder_detection" translatable="false">Intruder Detection</string>
+    <string name="intruder_detection_desc" translatable="false">Capture photo on failed login</string>
+
+    <!-- Auth Strings -->
+    <string name="phone_number" translatable="false">Phone Number</string>
+    <string name="use_phone" translatable="false">Use Phone Number</string>
+    <string name="use_email" translatable="false">Use Email Address</string>
+    <string name="verify_phone" translatable="false">Verify Phone</string>
+    <string name="verify_email" translatable="false">Verify Email</string>
+    <string name="verification_code" translatable="false">Verification Code</string>
+    <string name="enter_code_msg" translatable="false">Enter the 6-digit code sent to %1$s</string>
+    <string name="enter_guest_token" translatable="false">Enter Guest Access Token</string>
+    <string name="verify_and_proceed" translatable="false">Verify &amp; Proceed</string>
+    <string name="resend_code" translatable="false">Resend Code</string>
+    <string name="invalid_code" translatable="false">Invalid verification code</string>
+    <string name="sending_code" translatable="false">Sending code...</string>
+    <string name="code_sent" translatable="false">Verification code sent!</string>
+    <string name="continue_as_guest" translatable="false">Continue as Guest</string>
+    <string name="guest_mode_msg" translatable="false">Entering Secure Guest Session</string>
+
+    <!-- Unique Features -->
+    <string name="weight_light" translatable="false">Light</string>
+    <string name="weight_heavy" translatable="false">Heavy</string>
+    <string name="msg_weighted_heavy" translatable="false">Message sent with high gravity</string>
+    <string name="tactile_pulse" translatable="false">Tactile Pulse</string>
+    <string name="recording_pulse" translatable="false">Recording Pulse rhythm...</string>
+    <string name="tap_to_play_pulse" translatable="false">Tap to feel the pulse</string>
+    <string name="ambient_atmosphere" translatable="false">Atmosphere</string>
+    <string name="atmosphere_synced" translatable="false">Atmosphere synchronized</string>
+    <string name="atmosphere_none" translatable="false">Clear</string>
+    <string name="atmosphere_rain" translatable="false">Rainy</string>
+    <string name="atmosphere_neon" translatable="false">Neon Glow</string>
+    <string name="atmosphere_sunset" translatable="false">Sunset</string>
+    <string name="burn_on_read" translatable="false">Burn on Read</string>
+    <string name="incognito" translatable="false">Incognito</string>
+    <string name="co_presence" translatable="false">Co-Presence</string>
+    <string name="co_presence_active" translatable="false">Partner is viewing this message</string>
+    <string name="pulse_recorder_title" translatable="false">Pulse Recorder</string>
+    <string name="pulse_recorder_msg" translatable="false">Tap the pad to record a haptic rhythm</string>
+    <string name="send_pulse" translatable="false">Send Pulse</string>
+    <string name="resonance_sync" translatable="false">Resonance Sync</string>
+    <string name="resonance_active_msg" translatable="false">Resonance Sync Active: Connection Balanced</string>
+
+    <!-- Main Activity Strings -->
+    <string name="search" translatable="false">Search</string>
+    <string name="featured" translatable="false">Featured</string>
+    <string name="create_story" translatable="false">Create Story</string>
+    <string name="official" translatable="false">Official</string>
+    <string name="security" translatable="false">Security</string>
+    <string name="see_all" translatable="false">See All</string>
+    <string name="filter_all" translatable="false">All</string>
+    <string name="filter_groups" translatable="false">Groups</string>
+    <string name="filter_calls" translatable="false">Calls</string>
+    <string name="new_group" translatable="false">New Group</string>
+    <string name="usage_today" translatable="false">Today: %1$dh %2$dm %3$ds</string>
+    <string name="entry_time" translatable="false">In: %1$s</string>
+    <string name="wellbeing_summary" translatable="false">Digital Wellbeing</string>
+    <string name="wellbeing_msg" translatable="false">You have used LinkUp for %1$dh %2$dm today. Remember to take breaks!</string>
+    <string name="status_updates_count" translatable="false">%1$d status updates</string>
+    <string name="stealth_mode_active" translatable="false">Stealth Mode is active</string>
+
+    <!-- Account Analysis Strings -->
+    <string name="analysis_highly_secure" translatable="false">Highly Secure</string>
+    <string name="analysis_max_invisibility" translatable="false">Maximum Invisibility</string>
+    <string name="system_optimization" translatable="false">System Optimization</string>
+    <string name="optimization_msg" translatable="false">Would you like to clear encrypted cache and optimize multi-layer key routing?</string>
+    <string name="optimization_complete" translatable="false">Optimization Complete: %1$s cleared</string>
+    <string name="scanning_traffic" translatable="false">Scanning traffic nodes...</string>
+    <string name="compiling_audit" translatable="false">Compiling security audit...</string>
+    <string name="audit_report_generated" translatable="false">Audit Report Generated: %1$s</string>
+    <string name="routing_updated" translatable="false">Routing updated</string>
+    <string name="identity_rotation_msg" translatable="false">Continuous session: %1$dm. Identity rotation recommended.</string>
+
+    <!-- Share Activity Strings -->
+    <string name="new_post" translatable="false">New Post</string>
+    <string name="share_hint" translatable="false">What\'s on your mind?</string>
+    <string name="add_media" translatable="false">Add Media</string>
+    <string name="post_to_feed" translatable="false">Post to Feed</string>
+    <string name="please_enter_content" translatable="false">Please enter some content</string>
+    <string name="posted_successfully" translatable="false">Posted successfully</string>
+    <string name="remove_media" translatable="false">Remove Media</string>
+
+    <!-- Feed Activity Strings -->
+    <string name="recent" translatable="false">RECENT</string>
+    <string name="now" translatable="false">Now</string>
+    <string name="post_label" translatable="false">POST</string>
+    <string name="followers_cap" translatable="false">FOLLOWERS</string>
+
+    <!-- Settings Activity Strings -->
+    <string name="settings" translatable="false">Settings</string>
+    <string name="stealth_mode" translatable="false">Stealth Mode</string>
+    <string name="stealth_mode_active_msg" translatable="false">Stealth Mode Active: Interface Frozen</string>
+    <string name="interface_unlocked" translatable="false">Interface Unlocked</string>
+    <string name="authentication_error" translatable="false">Authentication error: %1$s</string>
+    <string name="authentication_failed" translatable="false">Authentication failed</string>
+    <string name="biometric_unlock" translatable="false">Biometric Unlock</string>
+    <string name="authenticate_deactivate_stealth" translatable="false">Authenticate to deactivate Stealth Mode</string>
+    <string name="select_unlock_method" translatable="false">Select Unlock Method</string>
+    <string name="biometric_device_lock" translatable="false">Biometric / Device Lock</string>
+    <string name="pin_code" translatable="false">PIN Code</string>
+    <string name="account_password" translatable="false">Account Password</string>
+    <string name="enter_pin" translatable="false">Enter PIN</string>
+    <string name="unlock" translatable="false">Unlock</string>
+    <string name="incorrect_pin" translatable="false">Incorrect PIN</string>
+    <string name="enter_password" translatable="false">Enter Password</string>
+    <string name="invalid_password" translatable="false">Invalid Password</string>
+    <string name="account" translatable="false">Account</string>
+    <string name="switch_account" translatable="false">Switch Account</string>
+    <string name="account_analysis" translatable="false">Account Analysis</string>
+    <string name="preferences" translatable="false">Preferences</string>
+    <string name="appearance" translatable="false">Appearance</string>
+    <string name="notifications" translatable="false">Notifications</string>
+    <string name="chats" translatable="false">Chats</string>
+    <string name="calls" translatable="false">Calls</string>
+    <string name="media_storage" translatable="false">Media &amp; Storage</string>
+    <string name="privacy_security" translatable="false">Privacy &amp; Security</string>
+    <string name="security_center" translatable="false">Security Center</string>
+    <string name="ghost_chat_daily" translatable="false">Ghost Chat (Daily)</string>
+    <string name="privacy_policy" translatable="false">Privacy Policy</string>
+    <string name="support_about" translatable="false">Support &amp; About</string>
+    <string name="help_support" translatable="false">Help &amp; Support</string>
+    <string name="invite_friends" translatable="false">Invite Friends</string>
+    <string name="about_linkup" translatable="false">About LinkUp</string>
+    <string name="clear_data" translatable="false">Clear Data</string>
+    <string name="logout" translatable="false">Logout</string>
+
+    <!-- User Profile Strings -->
+    <string name="my_profile" translatable="false">MY PROFILE</string>
+    <string name="user_profile_title" translatable="false">USER PROFILE</string>
+    <string name="no_bio" translatable="false">No bio provided.</string>
+    <string name="not_set" translatable="false">Not set</string>
+    <string name="location" translatable="false">LOCATION</string>
+    <string name="profession" translatable="false">PROFESSION</string>
+    <string name="education" translatable="false">EDUCATION</string>
+    <string name="hobbies" translatable="false">HOBBIES</string>
+    <string name="no_website" translatable="false">No website link</string>
+    <string name="posts_cap" translatable="false">POSTS</string>
+    <string name="connect" translatable="false">CONNECT</string>
+    <string name="agent_phantom" translatable="false">AGENT PHANTOM</string>
+    <string name="proxy_prefix" translatable="false">PROXY: %1$s</string>
+    <string name="update_clearance" translatable="false">Update Clearance Level</string>
+    <string name="clearance_updated" translatable="false">Clearance updated to %1$s</string>
+    <string name="report_anomaly" translatable="false">Report Anomaly</string>
+    <string name="sever_link" translatable="false">Sever Link</string>
+    <string name="share_protocol" translatable="false">Share Protocol</string>
+    <string name="inspect_assets" translatable="false">Inspect Assets</string>
+    <string name="anomaly_reported" translatable="false">Anomaly reported</string>
+    <string name="link_severed" translatable="false">Link severed with %1$s</string>
+    <string name="protocol_shared" translatable="false">Protocol shared</string>
+    <string name="encrypted_data_stream" translatable="false">Encrypted Data Stream %1$d</string>
+    <string name="info_label" translatable="false">Info</string>
+    <string name="mobile_label" translatable="false">Mobile</string>
+    <string name="username_label" translatable="false">Username</string>
+    <string name="bio_label" translatable="false">Bio</string>
+    <string name="online" translatable="false">online</string>
+    <string name="offline" translatable="false">offline</string>
+    <string name="media_tab" translatable="false">Media</string>
+    <string name="files_tab" translatable="false">Files</string>
+    <string name="links_tab" translatable="false">Links</string>
+    <string name="message_action" translatable="false">Message</string>
+    <string name="copied_to_clipboard" translatable="false">%1$s copied to clipboard</string>
+    <string name="call_action" translatable="false">Call</string>
+    <string name="share_action" translatable="false">Share</string>
+    <string name="say_hello" translatable="false">SAY HELLO</string>
+    <string name="website_label" translatable="false">Website</string>
+    <string name="website_icon_desc" translatable="false">Website Icon</string>
+    <string name="my_profile_status" translatable="false">My Profile</string>
+
+    <!-- Suggestions Strings -->
+    <string name="suggestions_title" translatable="false">SUGGESTIONS</string>
+
+    <!-- Vault Activity Strings -->
+    <string name="encrypted_vault" translatable="false">Encrypted Vault</string>
+    <string name="search_files" translatable="false">Search files...</string>
+    <string name="filter_docs" translatable="false">Documents</string>
+    <string name="filter_images" translatable="false">Images</string>
+    <string name="filter_others" translatable="false">Others</string>
+    <string name="no_files_found" translatable="false">No encrypted files found</string>
+    <string name="add_file" translatable="false">Add File</string>
+    <string name="simulating_encryption" translatable="false">Simulating secure file encryption...</string>
+    <string name="secure_note_prefix" translatable="false">Secure_Note_%1$d.txt.enc</string>
+
+    <!-- General UI & Accessibility -->
+    <string name="content_desc_avatar" translatable="false">User avatar</string>
+    <string name="content_desc_status" translatable="false">Status indicator</string>
+    <string name="content_desc_type" translatable="false">Notification type</string>
+    <string name="content_desc_post_image" translatable="false">Post image</string>
+    <string name="content_desc_play" translatable="false">Play button</string>
+    <string name="content_desc_options" translatable="false">More options</string>
+    <string name="placeholder_time" translatable="false">12:00 PM</string>
+    <string name="placeholder_duration" translatable="false">0:00</string>
+    <string name="ai_message_label" translatable="false">AI Message</string>
+    <string name="user_message_label" translatable="false">User Message</string>
+    <string name="image_label" translatable="false">IMAGE</string>
+    <string name="video_label" translatable="false">VIDEO</string>
+    <string name="audio_label" translatable="false">AUDIO</string>
+
+    <!-- Support Activity Strings -->
+    <string name="support_title" translatable="false">SUPPORT CENTER</string>
+    <string name="faq_label" translatable="false">Frequently Asked Questions</string>
+    <string name="contact_us" translatable="false">Contact Us</string>
+    <string name="faq_1_q" translatable="false">What is Stealth Mode?</string>
+    <string name="faq_1_a" translatable="false">Stealth Mode freezes the interface and prevents screenshots to ensure maximum privacy.</string>
+    <string name="faq_2_q" translatable="false">How to enable LAN Discovery?</string>
+    <string name="faq_2_a" translatable="false">Go to Security Center and toggle the LAN Discovery switch.</string>
+
+    <!-- Onboarding Strings -->
+    <string name="intro_title_1" translatable="false">End-to-End Encryption</string>
+    <string name="intro_desc_1" translatable="false">Your messages are private. Only you and the recipient can read them.</string>
+    <string name="intro_title_2" translatable="false">Secure File Vault</string>
+    <string name="intro_desc_2" translatable="false">Store your sensitive documents in a military-grade encrypted vault.</string>
+    <string name="intro_title_3" translatable="false">Advanced Intruder Alert</string>
+    <string name="intro_desc_3" translatable="false">Get notified with a photo capture whenever someone tries to peek into your app.</string>
+    <string name="get_started" translatable="false">Get Started</string>
+    <string name="next" translatable="false">Next</string>
+
+    <!-- Search Strings -->
+    <string name="search_hint" translatable="false">Search name, phone, or post…</string>
+    <string name="search_ghost_hint" translatable="false">Ghost Search Active…</string>
+    <string name="search_filter_all" translatable="false">All</string>
+    <string name="search_filter_people" translatable="false">People</string>
+    <string name="search_filter_messages" translatable="false">Messages</string>
+    <string name="search_filter_files" translatable="false">Files</string>
+    <string name="search_filter_video" translatable="false">Video</string>
+    <string name="search_filter_post" translatable="false">Post</string>
+    <string name="search_filter_phone" translatable="false">Phone</string>
+    <string name="search_empty_title" translatable="false">Discover something new</string>
+    <string name="search_empty_desc" translatable="false">Find people, encrypted groups, or posts</string>
+    <string name="search_recent_title" translatable="false">Recent Searches</string>
+    <string name="search_clear_history" translatable="false">Clear History</string>
+
+    <!-- Selection Strings -->
+    <string name="confirm_selection" translatable="false">CONFIRM SELECTION (%1$d)</string>
+
+    <!-- LAN Strings -->
+    <string name="lan_messenger" translatable="false">LAN Messenger</string>
+    <string name="lan_discovery" translatable="false">LAN Discovery</string>
+    <string name="searching_peers" translatable="false">Searching for local peers...</string>
+    <string name="no_peers_found" translatable="false">No local users found</string>
+    <string name="check_wifi" translatable="false">Make sure you\'re on the same Wi-Fi</string>
+
+    <!-- Donation Strings -->
+    <string name="support_linkup">Support LinkUp</string>
+    <string name="donation_icon">Donation Icon</string>
+    <string name="support_development">Support our development</string>
+    <string name="donation_desc">Your support helps us keep LinkUp free and secure for everyone.</string>
+    <string name="enter_amount">Enter Amount</string>
+    <string name="submit">Submit</string>
+    <string name="skip_for_now">Skip for now</string>
+    <string name="please_enter_amount">Please enter an amount</string>
+    <string name="storing_xmpp">Storing info in XMPP database...</string>
+    <string name="info_saved">Information saved successfully!</string>
+    <string name="failed_store_xmpp">Failed to store info in XMPP database.</string>
+</resources>

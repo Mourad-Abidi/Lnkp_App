@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/my_background_9"
+    tools:context=".activities.SecurityCenterActivity">
+
+    <!-- Ambient Overlay -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_gradient_transparent_black" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/transparent"
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        app:navigationIconTint="@color/white"
+        app:title="Security Center"
+        app:titleTextColor="@color/white"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Radar Visualization -->
+            <FrameLayout
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:layout_gravity="center"
+                android:layout_marginVertical="24dp">
+
+                <View
+                    android:id="@+id/viewRadarPulse"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_fab_circle_border"
+                    android:alpha="0" />
+
+                <ImageView
+                    android:id="@+id/ivRadarSweep"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/bg_fab_circle_border"
+                    android:alpha="0.4"
+                    app:tint="@color/primary"
+                    android:contentDescription="Radar Sweep" />
+
+                <TextView
+                    android:id="@+id/tvRadarStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="SCANNING..."
+                    android:textColor="@color/white"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    android:alpha="0.7"/>
+            </FrameLayout>
+
+            <!-- Security Label (Action Feedback) -->
+            <TextView
+                android:id="@+id/tvActionLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/bg_glass_card"
+                android:backgroundTint="@color/glass_white"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="System Secure - Monitoring Active"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold|italic"
+                android:visibility="visible" />
+
+            <!-- Security Score Header -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/glass_white"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
+                android:layout_marginBottom="24dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Security Score"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:alpha="0.8"/>
+
+                    <TextView
+                        android:id="@+id/tvSecurityScore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="92%"
+                        android:textColor="@color/primary"
+                        android:textSize="48sp"
+                        android:textStyle="bold"/>
+
+                    <com.google.android.material.progressindicator.LinearProgressIndicator
+                        android:id="@+id/securityProgress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:progress="92"
+                        app:trackColor="#33FFFFFF"
+                        app:indicatorColor="@color/primary"
+                        android:layout_marginVertical="12dp"
+                        app:trackThickness="8dp"
+                        app:trackCornerRadius="4dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Last protection update: Today, 10:45 AM"
+                        android:textColor="@color/grey_400"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Advanced Protection -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Advanced Protection"
+                android:textColor="@color/primary"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="4dp"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/glass_white"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
+                android:layout_marginBottom="24dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <!-- LAN Discovery Toggle -->
+                    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switchLANDiscovery"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:text="LAN Offline Discovery"
+                            android:textColor="@color/white" />
+                        <ImageView
+                            android:id="@+id/infoLANDiscovery"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="50dp"
+                            android:src="@android:drawable/ic_menu_help"
+                            app:tint="#AAFFFFFF"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:contentDescription="LAN Discovery Info" />
+                    </RelativeLayout>
+
+                    <!-- Ephemeral Identity -->
+                    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switchEphemeralIdentity"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:text="Ephemeral Identity"
+                            android:textColor="@color/white" />
+                        <ImageView
+                            android:id="@+id/infoEphemeralIdentity"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="50dp"
+                            android:src="@android:drawable/ic_menu_help"
+                            app:tint="#AAFFFFFF"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:contentDescription="Ephemeral Identity Info" />
+                    </RelativeLayout>
+
+                    <!-- Ghost Mode -->
+                    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switchGhostMode"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:text="Ghost Mode"
+                            android:textColor="@color/white" />
+                        <ImageView
+                            android:id="@+id/infoGhostMode"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="50dp"
+                            android:src="@android:drawable/ic_menu_help"
+                            app:tint="#AAFFFFFF"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:contentDescription="Ghost Mode Info" />
+                    </RelativeLayout>
+
+                    <!-- Intruder Alert -->
+                    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switchIntruderAlert"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:text="Intruder Alert"
+                            android:textColor="@color/white" />
+                        <ImageView
+                            android:id="@+id/infoIntruderAlert"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="50dp"
+                            android:src="@android:drawable/ic_menu_help"
+                            app:tint="#AAFFFFFF"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:contentDescription="Intruder Alert Info" />
+                    </RelativeLayout>
+
+                    <!-- Biometric -->
+                    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switchBiometric"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:text="Biometric Protection"
+                            android:textColor="@color/white" />
+                        <ImageView
+                            android:id="@+id/infoBiometric"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="50dp"
+                            android:src="@android:drawable/ic_menu_help"
+                            app:tint="#AAFFFFFF"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:contentDescription="Biometric Protection Info" />
+                    </RelativeLayout>
+
+                    <!-- Deep Inspection -->
+                    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switchDeepInspection"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:text="Deep Packet Inspection"
+                            android:textColor="@color/white" />
+                        <ImageView
+                            android:id="@+id/infoDeepInspection"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="50dp"
+                            android:src="@android:drawable/ic_menu_help"
+                            app:tint="#AAFFFFFF"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:contentDescription="Deep Packet Inspection Info" />
+                    </RelativeLayout>
+
+                    <!-- Neural Proxy -->
+                    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switchNeuralProxy"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:text="Neural Proxy (VPN)"
+                            android:textColor="@color/white" />
+                        <ImageView
+                            android:id="@+id/infoNeuralProxy"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="50dp"
+                            android:src="@android:drawable/ic_menu_help"
+                            app:tint="#AAFFFFFF"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:contentDescription="Neural Proxy Info" />
+                    </RelativeLayout>
+
+                    <!-- Quantum Encryption -->
+                    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switchQuantumEncryption"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:text="Quantum Encryption"
+                            android:textColor="@color/white" />
+                        <ImageView
+                            android:id="@+id/infoQuantumEncryption"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="50dp"
+                            android:src="@android:drawable/ic_menu_help"
+                            app:tint="#AAFFFFFF"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:contentDescription="Quantum Encryption Info" />
+                    </RelativeLayout>
+
+                    <!-- Anti-Screenshot -->
+                    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switchAntiScreenshot"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:text="Anti-Screenshot Protection"
+                            android:textColor="@color/white" />
+                        <ImageView
+                            android:id="@+id/infoAntiScreenshot"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="50dp"
+                            android:src="@android:drawable/ic_menu_help"
+                            app:tint="#AAFFFFFF"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:contentDescription="Anti-Screenshot Protection Info" />
+                    </RelativeLayout>
+
+                    <!-- Kill Switch -->
+                    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switchNetworkKillSwitch"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:text="Network Kill Switch"
+                            android:textColor="@color/white" />
+                        <ImageView
+                            android:id="@+id/infoKillSwitch"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="50dp"
+                            android:src="@android:drawable/ic_menu_help"
+                            app:tint="#AAFFFFFF"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:contentDescription="Network Kill Switch Info" />
+                    </RelativeLayout>
+
+                    <!-- Metadata scrubbing -->
+                    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switchMetadataScrubbing"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:text="Metadata Scrubbing"
+                            android:textColor="@color/white" />
+                        <ImageView
+                            android:id="@+id/infoMetadata"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="50dp"
+                            android:src="@android:drawable/ic_menu_help"
+                            app:tint="#AAFFFFFF"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:contentDescription="Metadata Scrubbing Info" />
+                    </RelativeLayout>
+
+                    <!-- Camouflage -->
+                    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switchCamouflage"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:text="Icon Camouflage"
+                            android:textColor="@color/white" />
+                        <ImageView
+                            android:id="@+id/infoCamouflage"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="50dp"
+                            android:src="@android:drawable/ic_menu_help"
+                            app:tint="#AAFFFFFF"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:contentDescription="Icon Camouflage Info" />
+                    </RelativeLayout>
+
+                    <!-- Encrypted DNS -->
+                    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switchEncryptedDns"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:text="Encrypted DNS"
+                            android:textColor="@color/white" />
+                        <ImageView
+                            android:id="@+id/infoEncryptedDns"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="50dp"
+                            android:src="@android:drawable/ic_menu_help"
+                            app:tint="#AAFFFFFF"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:contentDescription="Encrypted DNS Info" />
+                    </RelativeLayout>
+
+                    <!-- Stealth Mode -->
+                    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switchStealthMode"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:text="Stealth Mode"
+                            android:textColor="@color/white" />
+                        <ImageView
+                            android:id="@+id/infoStealthMode"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="50dp"
+                            android:src="@android:drawable/ic_menu_help"
+                            app:tint="#AAFFFFFF"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:contentDescription="Stealth Mode Info" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Security & Privacy Section Header (Bottom) -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Security &amp; Privacy"
+                android:textColor="@color/primary"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="4dp"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/glass_white"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
+                android:layout_marginBottom="24dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Privacy Row -->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <LinearLayout
+                            android:id="@+id/settingPrivacy"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="16dp"
+                            android:gravity="center_vertical"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:background="?attr/selectableItemBackground">
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Privacy &amp; Data Protection"
+                                android:textColor="@color/white"
+                                android:textSize="16sp"/>
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/ic_chevron_right"
+                                app:tint="@color/grey_400"
+                                android:contentDescription="Navigate to Privacy" />
+                        </LinearLayout>
+                        <ImageView
+                            android:id="@+id/infoPrivacyProtection"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="40dp"
+                            android:src="@android:drawable/ic_menu_help"
+                            app:tint="#AAFFFFFF"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:contentDescription="Privacy Protection Info" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Version 2.4.0 (Active Protection)"
+                android:textColor="@color/grey_400"
+                android:textSize="10sp"
+                android:layout_marginBottom="24dp"/>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

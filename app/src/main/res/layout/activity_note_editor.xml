@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/my_background_1">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_gradient_transparent_black" />
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        app:elevation="0dp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:title="Expressive Note"
+            app:titleTextColor="@color/white" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Stats & Info Header -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:id="@+id/tvNoteLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/primary"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.1" />
+
+                <TextView
+                    android:id="@+id/tvWordCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0 words"
+                    android:textColor="@color/white_60"
+                    android:textSize="11sp"
+                    android:layout_marginEnd="12dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipPriority"
+                    style="@style/Widget.Material3.Chip.Assist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Medium"
+                    android:textColor="@color/white"
+                    app:chipMinHeight="24dp"
+                    app:chipBackgroundColor="@color/glass_white"
+                    app:chipStrokeWidth="0dp"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+            <!-- Title Field -->
+            <EditText
+                android:id="@+id/etNoteTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:hint="Note Title"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white_40"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"
+                android:inputType="textCapSentences"
+                android:importantForAutofill="no" />
+
+            <!-- Ultra-Compact Multi-Function Toolbar -->
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                android:layout_marginBottom="8dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="2dp">
+
+                    <!-- Style Group -->
+                    <ImageButton
+                        android:id="@+id/btnBold"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:src="@android:drawable/ic_menu_edit"
+                        android:background="@drawable/bg_glass_card"
+                        android:layout_marginEnd="4dp"
+                        android:padding="6dp"
+                        android:scaleType="fitCenter"
+                        android:contentDescription="Bold"
+                        app:tint="@color/white" />
+
+                    <ImageButton
+                        android:id="@+id/btnItalic"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:src="@android:drawable/ic_menu_info_details"
+                        android:background="@drawable/bg_glass_card"
+                        android:layout_marginEnd="4dp"
+                        android:padding="6dp"
+                        android:scaleType="fitCenter"
+                        android:contentDescription="Italic"
+                        app:tint="@color/white" />
+
+                    <ImageButton
+                        android:id="@+id/btnUnderline"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:src="@android:drawable/ic_menu_sort_by_size"
+                        android:background="@drawable/bg_glass_card"
+                        android:layout_marginEnd="4dp"
+                        android:padding="6dp"
+                        android:scaleType="fitCenter"
+                        android:contentDescription="Underline"
+                        app:tint="@color/white" />
+
+                    <View android:layout_width="1dp" android:layout_height="20dp" android:background="@color/white_20" android:layout_gravity="center_vertical" android:layout_marginEnd="4dp" />
+
+                    <!-- Insert Group -->
+                    <ImageButton
+                        android:id="@+id/btnBulletList"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:src="@android:drawable/ic_menu_agenda"
+                        android:background="@drawable/bg_glass_card"
+                        android:layout_marginEnd="4dp"
+                        android:padding="6dp"
+                        android:scaleType="fitCenter"
+                        android:contentDescription="List"
+                        app:tint="@color/white" />
+
+                    <ImageButton
+                        android:id="@+id/btnTimestamp"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:src="@android:drawable/ic_menu_today"
+                        android:background="@drawable/bg_glass_card"
+                        android:layout_marginEnd="4dp"
+                        android:padding="6dp"
+                        android:scaleType="fitCenter"
+                        android:contentDescription="Timestamp"
+                        app:tint="@color/white" />
+
+                    <ImageButton
+                        android:id="@+id/btnAttachImage"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:src="@android:drawable/ic_menu_gallery"
+                        android:background="@drawable/bg_glass_card"
+                        android:layout_marginEnd="4dp"
+                        android:padding="6dp"
+                        android:scaleType="fitCenter"
+                        android:contentDescription="Image"
+                        app:tint="@color/white" />
+
+                    <ImageButton
+                        android:id="@+id/btnVoiceNote"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:src="@android:drawable/ic_btn_speak_now"
+                        android:background="@drawable/bg_glass_card"
+                        android:layout_marginEnd="4dp"
+                        android:padding="6dp"
+                        android:scaleType="fitCenter"
+                        android:contentDescription="Voice"
+                        app:tint="@color/white" />
+
+                    <View android:layout_width="1dp" android:layout_height="20dp" android:background="@color/white_20" android:layout_gravity="center_vertical" android:layout_marginEnd="4dp" />
+
+                    <!-- Utility Group -->
+                    <ImageButton
+                        android:id="@+id/btnTranslate"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:src="@android:drawable/ic_menu_search"
+                        android:background="@drawable/bg_glass_card"
+                        android:layout_marginEnd="4dp"
+                        android:padding="6dp"
+                        android:scaleType="fitCenter"
+                        android:contentDescription="Translate"
+                        app:tint="@color/white" />
+
+                    <ImageButton
+                        android:id="@+id/btnReminder"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:src="@android:drawable/ic_lock_idle_alarm"
+                        android:background="@drawable/bg_glass_card"
+                        android:layout_marginEnd="4dp"
+                        android:padding="6dp"
+                        android:scaleType="fitCenter"
+                        android:contentDescription="Reminder"
+                        app:tint="@color/white" />
+
+                    <ImageButton
+                        android:id="@+id/btnAiExplain"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:src="@android:drawable/ic_menu_view"
+                        android:background="@drawable/bg_glass_card"
+                        android:layout_marginEnd="4dp"
+                        android:padding="6dp"
+                        android:scaleType="fitCenter"
+                        android:contentDescription="AI Help"
+                        app:tint="@color/secondary" />
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <!-- Main Content Area -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:cardBackgroundColor="@color/glass_black"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#1AFFFFFF"
+                app:strokeWidth="1dp">
+
+                <EditText
+                    android:id="@+id/etNoteContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:gravity="top"
+                    android:hint="Start expressing..."
+                    android:padding="16dp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white_40"
+                    android:minHeight="200dp"
+                    android:lineSpacingExtra="4dp"
+                    android:inputType="textMultiLine"
+                    android:importantForAutofill="no"
+                    android:textSize="15sp" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- AI Explanation Result -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardAiResult"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:visibility="gone"
+                app:cardBackgroundColor="#2200E5FF"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/secondary"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="AI ASSISTANT"
+                        android:textColor="@color/secondary"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="4dp" />
+
+                    <TextView
+                        android:id="@+id/tvAiExplanation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Bottom Actions -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="12dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnDiscard"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:text="DISCARD"
+                    app:cornerRadius="12dp"
+                    app:strokeColor="@color/white_20"
+                    android:textSize="12sp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSaveNote"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="SAVE"
+                    app:cornerRadius="12dp"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

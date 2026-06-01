@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- Storage Permissions -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+
+    <application
+        android:allowBackup="true"
+        android:usesCleartextTraffic="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="LinkUp"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Lnkp">
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <activity
+            android:name=".activities.IntroActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activities.LoginActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".activities.MainActivity" android:exported="false" />
+        <activity
+            android:name=".activities.RegisterActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activities.ForgotPasswordActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".activities.SecurityCenterActivity" android:exported="false" />
+        <activity android:name=".activities.SecurityHistoryActivity" android:exported="false" />
+        <activity android:name=".activities.VaultActivity" android:exported="false" />
+        <activity android:name=".activities.FindPeopleActivity" android:exported="false" />
+        <activity
+            android:name=".activities.ChatActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".activities.UserProfileActivity" android:exported="false" />
+        <activity
+            android:name=".activities.EditProfileActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".activities.FeedActivity" android:exported="false" />
+        <activity
+            android:name=".activities.SearchActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".activities.NotificationsActivity" android:exported="false" />
+        <activity android:name=".activities.SettingsActivity" android:exported="false" />
+        <activity android:name=".activities.SharedContentDetailActivity" android:exported="false" />
+        <activity android:name=".activities.AccountAnalysisActivity" android:exported="false" />
+        <activity android:name=".activities.MediaGalleryActivity" android:exported="false" />
+        <activity android:name=".activities.CallActivity" android:exported="false" />
+        <activity android:name=".activities.SecuritySettingsActivity" android:exported="false" />
+        <activity android:name=".activities.PrivacySettingsActivity" android:exported="false" />
+        <activity android:name=".activities.ChatSettingsActivity" android:exported="false" />
+        <activity android:name=".activities.CallsSettingsActivity" android:exported="false" />
+        <activity android:name=".activities.NotificationsSettingsActivity" android:exported="false" />
+        <activity android:name=".activities.MediaStorageSettingsActivity" android:exported="false" />
+        <activity android:name=".activities.ChangeAccountActivity" android:exported="false" />
+        <activity android:name=".activities.ShareActivity" android:exported="false" />
+        <activity
+            android:name=".activities.GhostChatActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".activities.GhostInboxActivity" android:exported="false" />
+        <activity android:name=".activities.AppearanceActivity" android:exported="false" />
+
+        <activity android:name=".activities.ContactPickerActivity" android:exported="false" />
+        <activity android:name=".activities.BlockedUsersActivity" android:exported="false" />
+        <activity android:name=".activities.SessionManagerActivity" android:exported="false" />
+        <activity android:name=".activities.SupportActivity" android:exported="false" />
+        <activity android:name=".activities.GroupDetailActivity" android:exported="false" />
+        <activity android:name=".activities.CreateGroupActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
+
+        <activity android:name=".activities.AIChatActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".activities.AISettingsActivity" android:exported="false" />
+        <activity android:name=".activities.LANChatActivity" android:exported="false" />
+        <activity android:name=".activities.LANChatRoomActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
+
+        <activity android:name=".activities.PersonalNotesActivity" android:exported="false" />
+        <activity android:name=".activities.NoteEditorActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".activities.FullScreenImageActivity" android:exported="false" android:theme="@style/Theme.AppCompat.NoActionBar" />
+
+    </application>
+
+</manifest>

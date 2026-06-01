@@ -1,0 +1,19 @@
+
+project_info
+project_number	"656713981689"
+project_id	"linkup-malik"
+storage_bucket	"linkup-malik.firebasestorage.app"
+client
+0
+client_info
+mobilesdk_app_id	"1:656713981689:android:2b6fea747d70a7ced30c28"
+android_client_info
+package_name	"com.malik.lnkp"
+oauth_client	[]
+api_key
+0
+current_key	"AIzaSyD2522MP2nms_IcfDGuFevSuJ0Lc1NX-YE"
+services
+appinvite_service
+other_platform_oauth_client	[]
+configuration_version	"1"
